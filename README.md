@@ -5,7 +5,7 @@
 
 ---
 
-## 👥 Course Team & Ownership
+##  Course Team & Ownership
 
 | Member | Primary Ownership | Core Deliverables |
 | :--- | :--- | :--- |
@@ -16,7 +16,7 @@
 
 ---
 
-## 🎯 Problem Statement & Project Objectives
+##  Problem Statement & Project Objectives
 
 ### The Problem
 Public-key cryptography protects global communications, banking transactions, and authenticated software updates. However, Peter Shor's 1994 quantum algorithm can solve the Integer Factorization Problem (IFP) and Discrete Logarithm Problem (DLP) in polynomial time on a sufficiently capable, fault-tolerant quantum computer, completely compromising RSA and Elliptic Curve Cryptography (ECC). 
@@ -34,7 +34,7 @@ Public-key cryptography protects global communications, banking transactions, an
 
 ---
 
-## 🏛️ System Architecture
+##  System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────────┐
@@ -81,7 +81,7 @@ Public-key cryptography protects global communications, banking transactions, an
 
 ---
 
-## 💻 Technology Stack
+##  Technology Stack
 
 | Layer | Technology | Version | Purpose |
 | :--- | :--- | :--- | :--- |
@@ -99,14 +99,14 @@ Public-key cryptography protects global communications, banking transactions, an
 
 ---
 
-## 🚀 Installation & Startup Instructions
+##  Installation & Startup Instructions
 
 ### 1. Prerequisites
 - **Python:** 3.10 or higher (`python --version`)
 - **Node.js:** v18 or higher (`node -v`, `npm -v`)
 - **Windows PowerShell** or **bash** shell
 
-### ⚡ One-Click Windows Startup (Quickest)
+###  One-Click Windows Startup (Quickest)
 You can launch both servers simultaneously with a single click:
 - Double-click **`start_servers.bat`** (or run `start_all.bat`):
   - Automatically starts the FastAPI Backend on `http://localhost:8000`
@@ -153,7 +153,7 @@ npm run dev
 
 ---
 
-## 🧮 Mathematical Modules & Laboratory Features
+##  Mathematical Modules & Laboratory Features
 
 ### Module 1: Modular Arithmetic & Number Theory
 - **Operations:** Modular addition, subtraction, multiplication, and binary square-and-multiply exponentiation ($a^b \pmod q$).
@@ -180,7 +180,7 @@ npm run dev
 
 ---
 
-## 🛡️ Standardized Cryptographic Algorithms
+##  Standardized Cryptographic Algorithms
 
 | Algorithm | Standard | Category | KeyGen (ms) | Encap / Sign (ms) | Decap / Verify (ms) | Public Key | Ciphertext / Sig |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
@@ -240,7 +240,7 @@ The `docs/` folder contains complete academic presentation support materials:
 
 ---
 
-## ⚠️ Limitations & Future Scope
+##  Limitations & Future Scope
 
 ### Limitations
 1. **Educational Nature:** Built for conceptual demonstration and classroom experiments; not an enterprise HSM or production key vault.
@@ -254,7 +254,7 @@ The `docs/` folder contains complete academic presentation support materials:
 
 ---
 
-## 📜 Official Reference Links
+##  Official Reference Links
 
 - **NIST FIPS 203 (ML-KEM):** [https://csrc.nist.gov/pubs/fips/203/final](https://csrc.nist.gov/pubs/fips/203/final)
 - **NIST FIPS 204 (ML-DSA):** [https://csrc.nist.gov/pubs/fips/204/final](https://csrc.nist.gov/pubs/fips/204/final)
