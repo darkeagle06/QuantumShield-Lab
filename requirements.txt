@@ -1,0 +1,12 @@
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+pydantic>=2.9.0
+numpy>=2.0.0
+sympy>=1.13.0
+pytest>=8.3.0
+httpx>=0.27.0
+cryptography>=50.0.0
+pycryptodome>=4.1.0
+kyber-py>=1.2.0
+dilithium-py>=1.5.0
+slh-dsa>=0.2.5

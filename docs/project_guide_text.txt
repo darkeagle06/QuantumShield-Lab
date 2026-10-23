@@ -1,0 +1,298 @@
+QUANTUMSHIELD LAB
+A Discrete Mathematics Approach toPost-Quantum Cryptography
+Complete Project Explanation, Technical Architecture,Implementation Roadmap, Starter Code and Viva Preparation
+PROJECT PURPOSEBuild an interactive educational and experimental laboratory that explains the mathematics behind standardized post-quantum cryptography, runs supported cryptographic operations through established implementations, and measures performance under documented conditions.
+Project guide • October 2026
+Contents
+This guide covers the project idea, algorithms, mathematics, architecture, setup, code examples, cryptographic integration, benchmarking, database, frontend, testing, team roles, schedule and viva.
+1. Project Overview
+QuantumShield Lab is an interactive web-based laboratory for learning about post-quantum cryptography through discrete mathematics, supported cryptographic operations, and controlled performance experiments.
+The problem
+Public-key cryptography protects banking, software updates, communications and sensitive records. A sufficiently capable fault-tolerant quantum computer could threaten some widely used public-key systems, including RSA and elliptic-curve cryptography. Post-quantum cryptography (PQC) develops algorithms designed to resist attacks from classical and quantum computers.
+The proposed solution
+Teach the difference between classical cryptography, quantum cryptography and post-quantum cryptography.
+Demonstrate modular arithmetic, number theory, matrices, vectors, lattice intuition, hash functions, probability and complexity.
+Use established implementations of standardized algorithms instead of inventing production cryptography.
+Measure operation timings and output sizes under controlled conditions.
+Save experiment metadata and measurements so results can be reviewed and compared.
+IMPORTANTThis project does not claim that current quantum computers can routinely break production RSA, that it creates a new cryptographic algorithm, or that the application itself guarantees security. Treat all planned features as planned until implemented and tested.
+2. The Three Main Algorithms
+Algorithm
+Standard
+Purpose
+Important distinction
+ML-KEM
+NIST FIPS 203
+Key encapsulation / shared-secret establishment
+It does not directly encrypt an arbitrary document; use the shared secret with symmetric encryption.
+ML-DSA
+NIST FIPS 204
+Digital signatures
+Provides integrity and authenticity, not confidentiality.
+SLH-DSA
+NIST FIPS 205
+Hash-based digital signatures
+Alternative signature approach based on cryptographic hash functions.
+Official NIST standards:
+ML-KEM: https://csrc.nist.gov/pubs/fips/203/final
+ML-DSA: https://csrc.nist.gov/pubs/fips/204/final
+SLH-DSA: https://csrc.nist.gov/pubs/fips/205/final
+3. Discrete Mathematics Connection
+Math concept
+Project connection
+Modular arithmetic
+Arithmetic modulo q used in cryptographic computations and demos.
+Number theory
+Prime numbers, coprimality, modular inverses and the RSA comparison.
+Vectors and matrices
+Linear-algebra structures used to explain lattice-based algorithms.
+Lattices
+Geometric intuition for mathematical problems underlying ML-KEM and ML-DSA.
+Probability
+Noise distributions, sampling and security-related probability concepts.
+Sets, functions and relations
+Formalizing inputs, outputs, signing, verification and system relationships.
+Boolean logic
+Logical operations in computing and hash-function implementations.
+Computational complexity
+Reasoning about operation costs and mathematical problem difficulty.
+Statistics
+Median, variability and summaries of repeated benchmark measurements.
+Relational data modeling
+Relationships among experiments, configurations, runs and measurements.
+Simplified noisy-equation example
+b = As + e (mod q)
+A is a matrix, s is a secret vector, e is a small error/noise vector, q is a modulus and b is the resulting vector. Recovering secret information from noisy relationships is related to the hard mathematical problems underlying lattice-based cryptography. This is an educational illustration, not the full ML-KEM or ML-DSA specification.
+A = [[2, 1],     [1, 3]]s = [1, 2]e = [1, 0]q = 7A @ s = [4, 7]A @ s + e = [5, 7]b = [5 mod 7, 7 mod 7] = [5, 0]
+The website can let users change values and observe the result. Label this clearly as an educational demonstration, not a practical attack or a standardized algorithm implementation.
+4. System Architecture
+Layer
+Suggested technology
+Responsibility
+Frontend
+Next.js, React, TypeScript, Tailwind CSS, shadcn/ui, Recharts
+Pages, forms, mathematical demos, charts and user workflows.
+API/backend
+Python, FastAPI, Pydantic, Uvicorn
+Input validation, endpoints, orchestration and response formatting.
+Crypto adapter
+liboqs / liboqs-python where supported
+Call established implementations of supported algorithms.
+Math demos
+NumPy, SymPy
+Matrix/vector operations and educational calculations.
+Persistence
+PostgreSQL, SQLAlchemy, Alembic
+Store experiment metadata and measurements.
+Testing/quality
+pytest, Hypothesis, Ruff, mypy
+Tests, edge cases, linting and type checking.
+Development/release
+Git, GitHub Actions, Docker Compose
+Version control, repeatable environments and automated checks.
+Request flow: Frontend → FastAPI → cryptographic adapter → established native library. Benchmark measurements and experiment metadata can be stored separately in PostgreSQL. Keep math demonstrations separate from real cryptographic operations.
+Native cryptographic dependencies can be platform-sensitive. Check the installed library version, available algorithms and parameter sets. If Windows setup becomes difficult, consider WSL2 or Docker.
+5. Minimum Viable Product
+Home and Learn page: explain the threat model and differences between classical, quantum and post-quantum cryptography.
+Math Lab: modular arithmetic, matrix/vector operations and a simplified noisy-equation demo.
+Crypto Lab: ML-KEM key establishment and at least one signature workflow using a supported implementation.
+Benchmark Lab: repeated timings, output sizes and visual comparisons.
+Results page: experiment history, methodology, limitations and official references.
+Start with modular arithmetic and one API endpoint. Add the cryptographic engine after the frontend/backend connection works. Add persistence after the first real operation succeeds.
+6. Project Folder Structure
+QuantumShield-Lab/├── frontend/│   ├── app/│   ├── components/│   ├── lib/│   └── package.json├── backend/│   ├── app/│   │   ├── main.py│   │   ├── routes/│   │   ├── services/│   │   ├── math_lab/│   │   ├── crypto/│   │   ├── benchmarks/│   │   ├── database/│   │   └── schemas/│   ├── tests/│   └── requirements.txt├── docs/├── docker-compose.yml└── README.md
+math_lab contains educational calculations; crypto wraps established libraries; benchmarks measures operations; routes exposes endpoints; database handles persistence; tests verifies expected behaviour.
+7. Step-by-Step Setup
+Step 1 — Create a Python environment
+mkdir QuantumShield-Labcd QuantumShield-Labmkdir backendcd backendpy -m venv .venv.\.venv\Scripts\Activate.ps1python -m pip install --upgrade pippip install fastapi "uvicorn[standard]" pydantic numpy sympy pytest
+If PowerShell blocks activation, use the VS Code Command Prompt terminal or the activation command appropriate for your shell.
+Step 2 — Create the first API
+# Save as backend/app/main.pyfrom fastapi import FastAPIfrom pydantic import BaseModel, Fieldapp = FastAPI(title="QuantumShield Lab API")class ModularRequest(BaseModel):    a: int    b: int    q: int = Field(gt=1, le=1000000)@app.get("/api/health")def health():    return {"status": "ok"}@app.post("/api/math/modular-add")def modular_add(request: ModularRequest):    result = (request.a + request.b) % request.q    return {        "operation": "modular addition",        "a": request.a,        "b": request.b,        "modulus": request.q,        "result": result,    }
+Create backend/app and an empty __init__.py file if needed. Run from the backend directory:
+uvicorn app.main:app --reload
+Open http://127.0.0.1:8000/api/health and http://127.0.0.1:8000/docs. Test a=17, b=12, q=7; result should be 1 because 29 mod 7 = 1.
+8. Mathematical Demonstrations
+A. Modular arithmetic
+Allow users to calculate modular addition, multiplication and modular exponentiation. Example: 5^3 mod 7 = 125 mod 7 = 6. Explain each intermediate step.
+B. Matrix and noise visualization
+# Save as backend/app/math_lab/lattice_demo.pyimport numpy as npdef noisy_linear_demo():    A = np.array([[2, 1], [1, 3]])    secret = np.array([1, 2])    noise = np.array([1, 0])    q = 7    result = (A @ secret + noise) % q    return {        "matrix": A.tolist(),        "secret_vector": secret.tolist(),        "noise_vector": noise.tolist(),        "modulus": q,        "result": result.tolist(),    }if __name__ == "__main__":    print(noisy_linear_demo())
+Expected output vector is [5, 0]. This illustrates modular linear algebra only; it is not ML-KEM.
+C. Hash demonstration
+Accept a test message and display its SHA-256 digest.
+Show that a small input change produces a very different digest with overwhelming probability.
+Explain that hashing is not encryption and a hash alone is not a signature.
+Use a real signature library for signing and verification.
+9. Cryptographic Integration
+ML-KEM workflow
+Generate a key pair.
+Use the public key to encapsulate, producing a ciphertext and shared secret.
+Use the private key to decapsulate the ciphertext.
+Check inside the backend that both shared secrets match.
+Record timings and public output sizes without exposing or persisting the shared secret.
+Signature workflow
+Generate a signing key pair.
+Sign a test message with the private key.
+Verify the signature using the public key.
+Modify the message and verify the original signature against the modified message.
+Show verification status; do not display private keys or claim that a signature hides the message.
+Read official liboqs/liboqs-python instructions and check which mechanisms are available in the exact build. Do not hand-roll production cryptographic algorithms.
+10. Benchmark Engine
+Algorithm
+Operations
+Measurements
+ML-KEM
+Key generation, encapsulation, decapsulation
+Duration, public-key size, ciphertext size.
+ML-DSA
+Key generation, signing, verification
+Duration, public-key size, signature size.
+SLH-DSA
+Key generation, signing, verification
+Duration, public-key size, signature size.
+Do not compare unlike operations as if they perform the same task. Report parameter sets, library version, operating environment, warm-up count, repetition count, median, spread and sample count. Separate local execution time from network latency.
+from statistics import medianfrom time import perf_counterdef measure(operation, repetitions=100, warmups=5):    for _ in range(warmups):        operation()    durations_ms = []    for _ in range(repetitions):        start = perf_counter()        operation()        durations_ms.append((perf_counter() - start) * 1000)    return {        "repetitions": repetitions,        "median_ms": median(durations_ms),        "min_ms": min(durations_ms),        "max_ms": max(durations_ms),        "samples_ms": durations_ms,    }
+This helper measures a callable. Connect it to real operations only after confirming each repeated call is valid and that the intended work is being measured. Record every sample and compute variability. Never fabricate benchmark results.
+11. Database Design
+Table
+Suggested fields
+Purpose
+Experiments
+experiment_id PK, name, description, created_at
+Groups related experimental work.
+AlgorithmConfigurations
+configuration_id PK, algorithm, parameter_set, library_version
+Describes the algorithm configuration.
+BenchmarkRuns
+run_id PK, experiment_id FK, configuration_id FK, machine_info, repetitions, timestamp
+Records one benchmark run.
+BenchmarkMeasurements
+measurement_id PK, run_id FK, operation, duration_ms, output_size_bytes
+Stores measurements from runs.
+Refine the model to store individual samples or summary statistics as needed. Store metadata and measurements, not private keys, shared secrets or sensitive plaintext.
+12. Frontend Setup and API Connection
+# Run from the QuantumShield-Lab rootnpx create-next-app@latest frontendcd frontendnpm run dev
+Choose TypeScript, Tailwind CSS and the App Router when prompted. Open http://localhost:3000. Build Home, Math Lab, Crypto Lab, Benchmark Lab and Results pages.
+Example frontend request
+const response = await fetch(  "http://127.0.0.1:8000/api/math/modular-add",  {    method: "POST",    headers: { "Content-Type": "application/json" },    body: JSON.stringify({ a: 17, b: 12, q: 7 }),  });const result = await response.json();
+Configure FastAPI CORS for the frontend development origin. In production, allow only intended origins. Build reusable components for algorithm selection, inputs, result summaries, charts and experiment history.
+13. Suggested API Endpoints
+Method and path
+Purpose
+GET /api/health
+Health check.
+POST /api/math/modular-add
+Modular arithmetic calculation.
+POST /api/math/noisy-equation
+Educational equation demonstration.
+GET /api/crypto/algorithms
+List supported algorithms and parameter sets.
+POST /api/crypto/kem
+Run key encapsulation workflow.
+POST /api/crypto/sign
+Sign a test message.
+POST /api/crypto/verify
+Verify a signature.
+POST /api/benchmarks/run
+Run a controlled benchmark.
+GET /api/benchmarks
+Retrieve saved benchmark runs.
+14. Testing and Security
+Mathematical correctness: compare calculations with manually verified examples and test invalid moduli and boundary inputs.
+ML-KEM correctness: verify encapsulation and decapsulation yield matching secrets for valid inputs.
+Signature correctness: valid signatures should verify; changed messages should fail verification.
+Benchmark correctness: sample count should match configuration, durations should be nonnegative and output sizes should come from real outputs.
+Input validation: reject malformed requests and unsupported algorithm identifiers.
+Privacy: never log or persist private keys, shared secrets or sensitive plaintext.
+Resource control: limit request sizes, repetitions and benchmark duration.
+Honest claims: using an established library does not independently audit the application or guarantee secure integration.
+15. Four-Person Team Plan
+Member
+Primary responsibility
+Deliverable
+Shaurya
+Frontend structure, API integration and coordination
+Connected user workflows and interface.
+Shaunak
+Frontend components, Math Lab and visualizations
+Interactive mathematical demos and charts.
+Soham
+Cryptographic adapter and algorithm integration
+Working supported ML-KEM and signature workflows.
+Shantnu
+Benchmark engine, database and tests
+Saved results and reproducible measurements.
+Everyone should contribute to research, code review, integration, documentation and the final demonstration. Rebalance tasks based on each member's skills and availability.
+16. Four-to-Six-Week Roadmap
+Period
+Main work
+Milestone
+Week 1
+Research standards; install tools; create repository and API.
+Working backend and modular arithmetic endpoint.
+Week 2
+Math Lab and frontend/API integration.
+Interactive mathematics page.
+Week 3
+Check native library compatibility; add ML-KEM and a signature workflow.
+Correctness-tested crypto operations.
+Week 4
+Benchmark engine, database and charts.
+Saved experiment measurements.
+Weeks 5–6
+Testing, limitations, report, slides and demo rehearsal.
+Reproducible results and presentation-ready prototype.
+This is a planning estimate, not a guarantee. Native dependency setup and algorithm compatibility may change the schedule.
+17. Report and Evaluation
+Problem statement and objectives.
+Relevant discrete mathematics and algorithm explanations.
+Architecture, API design and database schema.
+Implementation details and screenshots of features that actually work.
+Cryptographic correctness test cases and results.
+Benchmark methodology, actual measurements, charts and interpretation.
+Limitations, privacy considerations and future work.
+References to official standards and library documentation.
+Possible research question: How do selected standardized post-quantum cryptographic implementations differ in execution time and output size under a controlled environment, and how can their mathematical structures help explain design trade-offs?
+Measurements characterize the specific implementations, configurations, hardware and environment tested. They do not automatically generalize to every implementation or establish comparative security.
+18. Viva Preparation
+What is QuantumShield Lab?
+An interactive educational and experimental platform connecting discrete mathematics to standardized post-quantum cryptography and controlled performance analysis.
+Why is it a Discrete Mathematics project?
+It demonstrates modular arithmetic, number theory, vectors, matrices, lattice intuition, probability, functions and complexity, then uses statistics to analyze measured results.
+What does ML-KEM do?
+It allows parties to establish a shared secret through key encapsulation. It does not directly encrypt arbitrary documents.
+What do ML-DSA and SLH-DSA do?
+They are standardized digital-signature algorithms used to sign and verify data. Signatures provide authenticity and integrity, not confidentiality.
+Are quantum computers already breaking RSA?
+The concern is a sufficiently capable fault-tolerant quantum computer; current quantum computers are not routinely breaking production RSA.
+Are you inventing a new algorithm?
+No. The contribution is the interactive platform, mathematical demonstrations, experiment framework and comparative analysis.
+How will you ensure benchmark fairness?
+Use consistent environments, warm-ups, repeated measurements, documented versions and parameter sets, medians and variability.
+What makes your contribution useful?
+It connects abstract mathematical explanations with supported operations and measurable experimental results.
+19. Short Project Pitch
+60–90 SECOND PITCHQuantumShield Lab is an interactive web-based laboratory for understanding post-quantum cryptography through discrete mathematics. As sufficiently capable quantum computers could threaten some existing public-key cryptography, our project explores standardized algorithms such as ML-KEM, ML-DSA and SLH-DSA. We connect concepts like modular arithmetic, matrices, lattices, probability and computational complexity to educational demonstrations and established cryptographic implementations. The platform will also measure operation timings and output sizes under controlled conditions, allowing users to explore practical trade-offs rather than relying only on theory. Our goal is to bridge discrete mathematics, cryptographic engineering and experimental analysis in one interactive system.
+20. Final Implementation Checklist
+Repository created and code tracked with Git.
+Backend health endpoint runs.
+Modular arithmetic endpoint passes tests.
+Frontend loads and calls the backend successfully.
+Math Lab displays calculations and labels simplified demonstrations.
+Cryptographic library version and supported algorithms verified.
+ML-KEM workflow passes shared-secret consistency checks.
+At least one signature workflow passes positive and negative tests.
+Benchmark samples and metadata are saved accurately.
+Charts display actual measured values.
+No private keys or shared secrets are logged or stored.
+Report distinguishes planned features from implemented features.
+Viva and demo have been rehearsed.
+21. Official Reference Links
+NIST FIPS 203 — ML-KEM: https://csrc.nist.gov/pubs/fips/203/final
+NIST FIPS 204 — ML-DSA: https://csrc.nist.gov/pubs/fips/204/final
+NIST FIPS 205 — SLH-DSA: https://csrc.nist.gov/pubs/fips/205/final
+Open Quantum Safe liboqs: https://github.com/open-quantum-safe/liboqs
+Open Quantum Safe liboqs-python: https://github.com/open-quantum-safe/liboqs-python
+FastAPI documentation: https://fastapi.tiangolo.com/
+Next.js documentation: https://nextjs.org/docs
+NumPy documentation: https://numpy.org/doc/
+PostgreSQL documentation: https://www.postgresql.org/docs/

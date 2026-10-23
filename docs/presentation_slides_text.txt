@@ -1,0 +1,506 @@
+=== ppt/slides/slide1.xml ===
+DISCRETE MATHEMATICS · COURSE PROJECT
+QuantumShield
+Lab
+A Discrete Mathematics Approach to
+Post-Quantum Cryptography
+MATHEMATICS  /  CRYPTOGRAPHY  /  EXPERIMENTS
+Shaurya   ·   Shaunak   ·   Soham   ·   Shantnu
+PROPOSED SYSTEM
+
+=== ppt/slides/slide2.xml ===
+01 / MOTIVATION
+A long-term cryptographic problem
+Security today must account for the data that still matters tomorrow.
+QUANTUMSHIELD LAB
+02
+CLASSICAL PUBLIC-KEY
+RSA and elliptic-curve systems rely on mathematical problems considered hard for known classical computers.
+QUANTUM THREAT MODEL
+A sufficiently capable, fault-tolerant quantum computer could undermine these assumptions.
+LONG-LIVED DATA
+“Harvest now, decrypt later” creates risk when confidential data must remain protected for years.
+RESEARCH QUESTION
+How can we demonstrate the mathematics, operations and performance of standardized post-quantum cryptography in an interactive lab?
+
+=== ppt/slides/slide3.xml ===
+02 / SCOPE
+What we intend to build
+A research laboratory that connects mathematical intuition with measurable software behavior.
+QUANTUMSHIELD LAB
+03
+01
+Explain
+Classical vs. post-quantum cryptography
+02
+Visualize
+Discrete mathematics and lattice intuition
+03
+Integrate
+NIST-standardized cryptographic operations
+04
+Explore
+A browser-based interactive workbench
+05
+Evaluate
+Repeatable performance experiments
+DELIVERABLES   Workbench  ·  Math Lab  ·  Benchmark Studio  ·  Experiment History  ·  Technical Report
+
+=== ppt/slides/slide4.xml ===
+03 / CLASSICAL CRYPTOGRAPHY
+RSA: the classical reference point
+A compact example of number theory, modular arithmetic and trapdoor functions.
+QUANTUMSHIELD LAB
+04
+KEY GENERATION
+n = p × q
+φ(n) = (p − 1)(q − 1)
+gcd(e, φ(n)) = 1
+e × d ≡ 1  (mod φ(n))
+TEXTBOOK MODEL
+Encrypt:  c = mᵉ mod n
+Decrypt:  m = cᵈ mod n
+SECURITY NOTE
+Toy equations explain the idea; they are not a secure implementation. Real RSA uses secure schemes such as OAEP for encryption and PSS for signatures.
+RSA's classical security is tied to the difficulty of factoring appropriately sized integers.
+
+=== ppt/slides/slide5.xml ===
+04 / THREAT MODEL
+Quantum algorithms change the assumptions
+QUANTUMSHIELD LAB
+05
+SHOR'S ALGORITHM
+• Efficiently solves integer factorization and discrete logarithms in the quantum model.
+• Threatens RSA and elliptic-curve cryptography.
+• Practical impact depends on a sufficiently capable fault-tolerant machine.
+GROVER'S ALGORITHM
+• Gives a quadratic speedup for idealized unstructured search.
+• Implications differ from Shor's impact on public-key systems.
+• Does not mean every cryptographic algorithm is broken in the same way.
+THEORY ≠ CURRENT CAPABILITY   ·   Hardware scale, error correction and resources matter.
+
+=== ppt/slides/slide6.xml ===
+05 / LANDSCAPE
+Three distinct security paradigms
+QUANTUMSHIELD LAB
+06
+CLASSICAL
+Runs on conventional computers
+RSA · ECC · AES
+Conventional mathematical assumptions
+QUANTUM
+Uses quantum-physics phenomena
+QKD
+Specialized quantum communication equipment
+POST-QUANTUM
+Runs on ordinary computers
+ML-KEM · ML-DSA · SLH-DSA
+Designed to resist known classical and quantum attacks
+Post-quantum cryptography does not run on a quantum computer.
+
+=== ppt/slides/slide7.xml ===
+06 / MATHEMATICAL FOUNDATIONS
+Discrete mathematics I · number theory
+QUANTUMSHIELD LAB
+07
+A SIMPLE CONGRUENCE
+17 mod 5 = 2
+17 = 3 × 5 + 2
+The remainder is 2.
+Modular arithmetic
+Congruences and remainders
+Number theory
+Primes, gcd and inverses
+Polynomial arithmetic
+Relevant to algebraic constructions
+Logic & functions
+Rules, mappings and validation
+
+=== ppt/slides/slide8.xml ===
+07 / MATHEMATICAL FOUNDATIONS
+Discrete mathematics II · lattices and noise
+QUANTUMSHIELD LAB
+08
+2D lattice: an intuition-building model
+BASIS VECTORS
+Integer combinations generate a discrete grid of lattice points.
+NOISE
+Illustrative perturbations help explain the intuition behind Learning With Errors.
+MODULE-LWE
+ML-KEM uses module-lattice cryptography; this picture does not prove security.
+
+=== ppt/slides/slide9.xml ===
+08 / TRACEABILITY
+From mathematical concepts to software
+QUANTUMSHIELD LAB
+09
+CONCEPT
+FORMAL IDEA
+PROJECT MODULE
+VALIDATION
+Modular arithmetic
+Congruences
+RSA educational demo
+Known-answer tests
+Sets & functions
+Mappings
+Algorithm/config registry
+Input validation
+Relations & logic
+Predicates
+Operation states & rules
+Positive/negative tests
+Probability
+Distributions
+Noise intuition & statistics
+Repeated measurements
+Lattices & vectors
+Integer combinations
+Lattice visualizer
+Visual sanity checks
+Complexity & stats
+Growth / dispersion
+Analysis & reporting
+Median, spread, n
+Not every listed concept is a direct ingredient in every cryptographic algorithm.
+
+=== ppt/slides/slide10.xml ===
+09 / ALGORITHMS
+The standards we integrate
+QUANTUMSHIELD LAB
+10
+ML-KEM
+FIPS 203
+Key encapsulation
+Establishes a shared secret
+Lattice-based
+ML-DSA
+FIPS 204
+Digital signature
+Signs and verifies messages
+Module-lattice
+SLH-DSA
+FIPS 205
+Digital signature
+Hash-based alternative
+Stateless hash-based
+Use established implementations; the project contribution is integration, visualization and evaluation.
+
+=== ppt/slides/slide11.xml ===
+10 / CRYPTOGRAPHIC LOGIC
+ML-KEM · establish a shared secret
+QUANTUMSHIELD LAB
+11
+ALICE
+BOB
+Generate key pair
+Encapsulation key + decapsulation key
+Publish encapsulation key
+Public key
+Encapsulate
+Ciphertext + shared secret
+Decapsulate ciphertext
+Corresponding shared secret
+KEM establishes a shared secret; a separate symmetric AEAD scheme can protect application data.
+
+=== ppt/slides/slide12.xml ===
+11 / CRYPTOGRAPHIC LOGIC
+Digital signatures · integrity and authenticity
+QUANTUMSHIELD LAB
+12
+ML-DSA
+Module-lattice-based signature standard.
+
+Private key + message → signature
+Public key + message + signature → valid / invalid
+SLH-DSA
+Stateless hash-based signature standard.
+
+Alternative mathematical approach based on cryptographic hash functions.
+TAMPER TEST
+Change one message byte → verification should fail.
+A signature supports integrity and authenticity; it does not encrypt the message.
+
+=== ppt/slides/slide13.xml ===
+12 / PRODUCT EXPERIENCE
+QuantumShield Lab · interface concept
+A proposed desktop workbench — replace mock data with live results after implementation.
+QUANTUMSHIELD LAB
+13
+Q / LAB
+Overview
+Crypto Workbench
+Mathematical Lab
+Benchmark Studio
+Algorithm Compare
+Experiment History
+Cryptographic workbench
+Choose a standard and inspect its operation.
+ML-KEM
+Key encapsulation
+ML-DSA
+Digital signature
+SLH-DSA
+Hash-based signature
+BENCHMARK OVERVIEW
+RESULT METADATA
+Latency: pending
+Output size: pending
+Status: illustrative UI
+CONCEPT MOCKUP · VALUES ARE NOT MEASURED RESULTS
+
+=== ppt/slides/slide14.xml ===
+13 / FRONTEND
+Frontend · the user-facing research layer
+QUANTUMSHIELD LAB
+14
+Next.js + React
+Application shell and routes
+TypeScript
+Typed props, requests and responses
+Tailwind + shadcn/ui
+Consistent components and layout
+Recharts / Plotly
+Benchmark and mathematical visualizations
+USER JOURNEY
+Select algorithm → configure operation → submit request → receive structured result → inspect math → compare performance.
+SECURITY BOUNDARY
+The browser presents results; private-key material must not be exposed in the UI or routine logs.
+
+=== ppt/slides/slide15.xml ===
+14 / BACKEND SERVICE
+FastAPI · orchestration and validation
+QUANTUMSHIELD LAB
+15
+Frontend
+Typed JSON request
+FastAPI
+Validate schema + parameters
+Service layer
+Select operation + adapter
+Response
+Structured result + status
+PROPOSED ROUTES
+POST /api/kem/encapsulate   ·   POST /api/signatures/verify   ·   POST /api/benchmarks
+FastAPI + Pydantic + Uvicorn + OpenAPI · Actual routes must match the implemented API.
+
+=== ppt/slides/slide16.xml ===
+15 / CRYPTO ENGINE
+Cryptographic engine · trusted computation boundary
+The lab integrates established implementations; it does not invent production cryptography.
+QUANTUMSHIELD LAB
+16
+FastAPI
+Request orchestration
+Python adapter
+API normalization
+liboqs / C
+Native operations
+Outputs
+Bytes + metadata
+COMPATIBILITY
+Discover algorithms and supported parameter sets.
+CORRECTNESS
+Test key generation, KEM and signatures.
+SECRET HYGIENE
+Avoid logging keys, shared secrets or sensitive plaintext.
+Native dependencies and library versions must be verified in the target environment.
+
+=== ppt/slides/slide17.xml ===
+16 / DATA LAYER
+PostgreSQL · experiment memory
+QUANTUMSHIELD LAB
+17
+Experiments
+PK experiment_id
+name · created_at
+BenchmarkRuns
+PK run_id · FK experiment_id
+configuration_id
+Measurements
+PK measurement_id
+FK run_id · latency_ns
+Configurations
+Algorithm · params
+library version
+RELATIONAL DESIGN
+Primary keys, foreign keys, constraints and indexes.
+PYTHON TOOLING
+SQLAlchemy ORM + Alembic migrations.
+SAFE PERSISTENCE
+Store metadata and measurements—not keys or secrets.
+
+=== ppt/slides/slide18.xml ===
+17 / ARCHITECTURE
+System architecture · end to end
+QUANTUMSHIELD LAB
+18
+01   Next.js frontend
+02   FastAPI service
+03   Adapter + liboqs / C
+04   PostgreSQL
+Experiment metadata + measurements
+Separate persistence flow
+No secrets in routine records
+Request → validation → cryptographic operation → result → visualization
+
+=== ppt/slides/slide19.xml ===
+18 / ENGINEERING WORKFLOW
+Implementation cycle · from idea to evidence
+QUANTUMSHIELD LAB
+19
+01
+Research
+Standards + math
+02
+Design
+Architecture + API
+03
+Build
+Adapter + UI
+04
+Verify
+Unit + integration
+05
+Measure
+Reproducible runs
+06
+Report
+Analysis + docs
+GitHub · Docker Compose · GitHub Actions · pytest · Hypothesis · Ruff · mypy · Testcontainers
+Planned workflow; mark stages complete only when supported by implementation evidence.
+
+=== ppt/slides/slide20.xml ===
+19 / EVALUATION
+Benchmarking · measure, don't assume
+QUANTUMSHIELD LAB
+20
+Latency
+Keygen · encapsulate · decapsulate
+Output size
+Public key · ciphertext · signature
+Correctness
+Round-trip and verification tests
+Reproducibility
+Versions · hardware · repetitions
+REPORT EACH RUN WITH
+Median · dispersion · sample count · parameter set
+RESULT STATUS
+PENDING MEASUREMENT
+Separate local crypto execution time from network latency; compare like-for-like operations.
+
+=== ppt/slides/slide21.xml ===
+20 / APPLICATIONS
+Where post-quantum readiness matters
+QUANTUMSHIELD LAB
+21
+01
+Banking
+Long-lived financial records
+02
+Healthcare
+Sensitive data with long retention
+03
+Cloud
+Secure key establishment
+04
+Government
+Confidential communications
+05
+Software
+Authenticity of signed updates
+Crypto-agility: plan for algorithm migration before urgency forces it.
+QuantumShield Lab is an educational prototype—not a production security service.
+
+=== ppt/slides/slide22.xml ===
+21 / COMPARISON
+RSA and PQC are not interchangeable labels
+QUANTUMSHIELD LAB
+22
+SCHEME
+PURPOSE
+BASIS
+OUTPUT / ROLE
+STANDARD
+RSA
+Encryption / signatures
+Integer factorization
+Ciphertext or signature
+Classical
+ML-KEM
+Key establishment
+Module-lattice
+Ciphertext + shared secret
+FIPS 203
+ML-DSA
+Digital signatures
+Module-lattice
+Signature
+FIPS 204
+SLH-DSA
+Digital signatures
+Hash-based
+Signature
+FIPS 205
+ML-KEM establishes secrets; ML-DSA and SLH-DSA sign. RSA supports distinct schemes for different purposes.
+
+=== ppt/slides/slide23.xml ===
+22 / TEAM
+Four contributors · balanced ownership
+QUANTUMSHIELD LAB
+23
+PAIR A  ·  SHAURYA + SHAUNAK
+Frontend architecture and components
+Next.js + TypeScript implementation
+FastAPI contracts and integration
+User workflow and visualizations
+Frontend/API tests
+PAIR B  ·  SOHAM + SHANTNU
+Cryptographic adapter integration
+Algorithm compatibility and correctness
+Mathematical demonstrations
+Benchmark engine and measurements
+Backend/database integration tests
+SHARED BY ALL
+Code review · integration debugging · research report · documentation · demo · viva
+Each pair owns difficult implementation, testing and integration—not just presentation work.
+
+=== ppt/slides/slide24.xml ===
+23 / DELIVERY PLAN
+Roadmap, constraints and next steps
+QUANTUMSHIELD LAB
+24
+W1
+Research + setup
+W2
+Core crypto flow
+W3
+UI + math lab
+W4
+Testing + benchmarks
+W5–6
+Analysis + report
+LIMITATIONS
+Native library compatibility · hardware-dependent results · limited timeline · no dedicated security audit.
+FUTURE WORK
+Hybrid protocol experiments · crypto-agility analysis · additional algorithms · deeper mathematical visualizations.
+Roadmap is planned; completion status must be updated as milestones are actually achieved.
+
+=== ppt/slides/slide25.xml ===
+QUANTUMSHIELD LAB  /  CONCLUSION
+Security begins
+with assumptions.
+A research lab connecting discrete mathematics, standardized cryptography and reproducible software experiments.
+Building cryptographic agility through mathematical understanding and measurable engineering.
+OFFICIAL REFERENCES
+NIST FIPS 203 · ML-KEM
+NIST FIPS 204 · ML-DSA
+NIST FIPS 205 · SLH-DSA
+NIST Post-Quantum Cryptography
+Open Quantum Safe / liboqs
+PostgreSQL Documentation
+FastAPI Documentation
+Next.js Documentation
+Shaurya  ·  Shaunak  ·  Soham  ·  Shantnu
+QUANTUMSHIELD LAB
+25

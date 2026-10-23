@@ -1,0 +1,25 @@
+{
+  "name": "quantumshield-lab",
+  "version": "1.0.0",
+  "description": "A Discrete Mathematics Approach to Post-Quantum Cryptography — Educational Laboratory Testbed",
+  "private": true,
+  "scripts": {
+    "dev": "npm run dev --prefix frontend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "python -m uvicorn backend.app.main:app --reload --port 8000",
+    "build": "npm run build --prefix frontend",
+    "start": "npm run start --prefix frontend",
+    "test:backend": "python -m pytest backend/tests -v"
+  },
+  "keywords": [
+    "post-quantum-cryptography",
+    "discrete-mathematics",
+    "ml-kem",
+    "ml-dsa",
+    "slh-dsa",
+    "fastapi",
+    "nextjs"
+  ],
+  "author": "Shaurya, Shaunak, Soham, Shantnu",
+  "license": "MIT"
+}
